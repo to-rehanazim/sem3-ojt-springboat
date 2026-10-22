@@ -1,0 +1,83 @@
+package com.pwioi.jdbc;
+
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.pwioi.jdbc.config.DBConfig;
+
+public class BinarySelectDemo {
+
+	public static void main(String[] args) {
+		
+		InputStream dbPhoto = null;
+		Reader dbResume = null;
+		
+		
+		// TODO Auto-generated method stub
+		
+		try (Connection con = DBConfig.getDBConnection();
+			 PreparedStatement pstmt = con.prepareStatement("Select name,photo,resume from profiles where id=?");
+				
+		
+		FileOutputStream fos = new FileOutputStream("dbPhoto.jpg");
+				FileWriter fw = new FileWriter("db_resume.txt");
+				
+				
+				) {
+			
+			
+			
+			System.out.println("Database Established Successfully");
+			
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter id of the profile to be searched");
+			int profileId = sc.nextInt();
+			
+			pstmt.setInt(1, profileId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String profileName =rs.getString(1);
+				System.out.println("Profile name is " + profileName);
+				
+				 dbPhoto = rs.getBinaryStream(2);
+				byte[] imageData = dbPhoto.readAllBytes();
+				fos.write(imageData);
+				
+				dbResume = rs.getCharacterStream("resume");
+				int txtData = 0;
+				while((txtData=dbResume.read())!=-1)
+					fw.write(txtData);
+				
+				
+				System.out.println("Data fetched succesfully");
+				
+			}else 
+				System.out.println("Sorry! profile not found");
+			
+			
+			} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(dbPhoto!=null)
+					dbPhoto.close();
+				if(dbResume!=null)
+					dbResume.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

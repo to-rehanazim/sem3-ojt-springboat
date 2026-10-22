@@ -1,0 +1,5 @@
+package com.pwioi.jdbc.config;
+
+public class BinarySelectDemo {
+
+}

@@ -1,0 +1,119 @@
+package com.pwioi.hibernate;
+
+import java.io.FileInputStream;
+
+import java.io.FileNotFoundException;
+
+import java.io.FileReader;
+
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
+
+import org.hibernate.HibernateException;
+
+import org.hibernate.Session;
+
+import org.hibernate.SessionFactory;
+
+import org.hibernate.Transaction;
+
+import org.hibernate.cfg.Configuration;
+
+import com.pwioi.hibernate.entities.Profile;
+
+/**
+ * Hello world!
+ */
+
+public class App {
+
+    private static final String IOUtils = null;
+
+	public static void main(String[] args) {
+
+    	Configuration cfg = new Configuration();
+
+    	cfg.addAnnotatedClass(Profile.class);
+
+    	SessionFactory factory = cfg.buildSessionFactory();
+
+    	try (Session ss = factory.openSession();
+
+    			FileInputStream fis = new FileInputStream("./target/classes/images/ChatGPT Image Aug 14, 2026, 02_15_22 PM.png");
+
+    			FileReader fr = new FileReader("./target/classes/docs/anoop_resume.txt")
+
+    			) {
+
+    			Transaction tx = null;
+
+    			try {
+
+    				tx=ss.beginTransaction();
+
+    				// database operations
+
+    				Profile profile = new Profile();
+
+    				profile.setName("tejas_resume.txt");
+
+    				byte [] photo = fis.readAllBytes();
+
+    				profile.setPhoto(photo);
+
+    				char [] resume = IOUtils.toCharArray();
+
+    				profile.setResume(resume);
+
+    				ss.persist(profile);
+
+
+
+    				tx.commit(); // making database changes permanent  		 	
+
+    			}catch (Exception e) {
+
+    				// **TODO**: handle exception
+
+    				if (tx != null) {
+
+    					tx.rollback();
+
+    				}
+
+    				throw e; // re-throwing exception
+
+    				}
+
+
+
+
+
+    	} catch (HibernateException e) {
+
+    		// **TODO** Auto-generated catch block
+
+    		e.printStackTrace();
+
+    	} catch (FileNotFoundException e1) {
+
+    		// **TODO** Auto-generated catch block
+
+    		e1.printStackTrace();
+
+    	} catch (IOException e1) {
+
+    		// **TODO** Auto-generated catch block
+
+    		e1.printStackTrace();
+
+    	}
+
+
+
+
+
+    }
+
+}

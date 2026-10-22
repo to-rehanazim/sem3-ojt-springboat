@@ -1,0 +1,43 @@
+package com.pwioi.hibernate;
+
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.pwioi.hibernate.entities.Product;
+
+import jakarta.persistence.Query;
+
+/**
+ * Hello world!
+ */
+public class App {
+
+    public static void main(String[] args) {
+
+        Configuration cfg = new Configuration();
+
+        cfg.addAnnotatedClass(Product.class);
+
+        SessionFactory factory = cfg.buildSessionFactory();
+
+        try (Session ss = factory.openSession()) {
+
+            Query query = ss.createQuery("from Product p where p.price between 20000.00 and 50000.00", Product.class);
+
+            List<Product> productList = query.getResultList();
+
+            for (Product product : productList) {
+                System.out.println(product);
+            }
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            factory.close();
+        }
+    }
+}

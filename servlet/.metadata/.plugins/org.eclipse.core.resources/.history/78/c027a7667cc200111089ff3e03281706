@@ -1,0 +1,5 @@
+package com.pwioi.web.config;
+
+public class DBConfig {
+
+}

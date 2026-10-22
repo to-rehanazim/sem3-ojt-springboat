@@ -1,0 +1,5 @@
+package com.pwioi.jdbc;
+
+public class DBConfig {
+
+}

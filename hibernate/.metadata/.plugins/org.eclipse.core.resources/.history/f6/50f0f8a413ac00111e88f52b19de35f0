@@ -1,0 +1,23 @@
+package com.pwioi.hibernate.entities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+
+@Table
+@Entity
+public class Profile {
+	@Id
+	private int id;
+	private String name;
+	
+	@Lob
+	private byte [] photo;
+	@Lob
+	private char [] resume; 
+	
+ int getId() {
+	 return id;
+ }
+}

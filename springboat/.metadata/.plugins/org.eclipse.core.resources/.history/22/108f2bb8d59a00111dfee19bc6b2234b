@@ -1,0 +1,21 @@
+package com.pwioi.jdbc;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.pwioi.jdbc.config.DBConfig;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+//        System.out.println( "Hello World!" );
+    	try(Connection con = DBConfig.getDBConnection()){
+    		  System.out.println( "Database connection established" );
+    	}catch (IOException | SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+}

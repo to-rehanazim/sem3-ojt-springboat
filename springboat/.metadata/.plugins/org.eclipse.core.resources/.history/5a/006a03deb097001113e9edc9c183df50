@@ -1,0 +1,23 @@
+package com.pwioi.jdbc.config;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.pwioi.jdbc.config.DBConfig;
+
+public class BinaryInsertDemo {
+
+	public static void main(String[] args) {
+		try (// TODO Auto-generated method stub
+		 Connection con = DBConfig.getDBConnection()) {
+			
+			System.out.println("Database Connection established");
+			
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

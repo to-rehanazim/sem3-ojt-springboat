@@ -1,0 +1,22 @@
+package com.pwioi.hibernate;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import com.pwioi.hibernate.entities.Profile;
+/**
+ * Hello world!
+ */
+public class App {
+    public static void main(String[] args) {
+       Configuration cfg = new Configuration();
+       cfg.addAnnotatedClass(Profile.class);
+       
+       SessionFactory factory = cfg.buildSessionFactory();
+       Session ss = factory.openSession();
+        try(Session ss = factory.openSession()
+        		
+        		)
+        
+    }
+}

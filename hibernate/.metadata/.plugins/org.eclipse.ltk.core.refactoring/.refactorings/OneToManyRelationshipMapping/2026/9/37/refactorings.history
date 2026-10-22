@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;OneToManyRelationshipMapping/src/main/resources/hibernates.entities&apos; to &apos;hibernates.properties&apos;" description="Rename resource &apos;hibernates.entities&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/hibernates.entities" name="hibernates.properties" stamp="1789034251814" updateReferences="true"/>
+</session>

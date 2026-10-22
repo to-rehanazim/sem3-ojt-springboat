@@ -1,0 +1,5 @@
+package com.pwioi.hibernate.entities;
+
+public class Product {
+
+}

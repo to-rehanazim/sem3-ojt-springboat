@@ -1,0 +1,71 @@
+package com.pwioi.jdbc;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+/**
+ * Hello world!
+ */
+public class App {
+
+    public static void main(String[] args) throws SQLException {
+
+        Connection con = null;
+
+        try {
+
+            con = DBConfig.getDBConnection();
+            con.setAutoCommit(false);
+
+            Scanner sc = new Scanner(System.in);
+
+            System.out.println("Enter the Amount to be transferred");
+            double amountToTransfer = sc.nextDouble();
+
+            System.out.println("Enter the source account id:");
+            int sourceAccId = sc.nextInt();
+
+            System.out.println("Enter the destination account id:");
+            int destinationAccId = sc.nextInt();
+
+            PreparedStatement source = con.prepareCall(
+                    "UPDATE ACCOUNT SET BALANCE = BALANCE - ? WHERE ACCOUNTID = ?"
+            );
+
+            PreparedStatement destination = con.prepareCall(
+                    "UPDATE ACCOUNT SET BALANCE = BALANCE + ? WHERE ACCOUNTID = ?"
+            );
+
+            source.setDouble(1, amountToTransfer);
+            source.setInt(2, sourceAccId);
+
+            destination.setDouble(1, amountToTransfer);
+            destination.setInt(2, destinationAccId);
+
+            System.out.println("Rows affected by source " + source.executeUpdate());
+
+            System.out.println("Rows affected by destination " + destination.executeUpdate());
+
+            // commit to the whole transaction of transfer of fund
+            // from source account to destination account
+            con.commit();
+
+            System.out.println("Transaction successful");
+
+        } catch (IOException | SQLException e) {
+
+            try {
+                if (con != null)
+                    con.rollback();
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
+            e.printStackTrace();
+        }
+    }
+}
